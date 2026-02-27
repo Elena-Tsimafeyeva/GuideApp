@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:controls="clr-namespace:GuideApp"
+             x:Class="GuideApp.InfoPage"
+             Title="InfoPage">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition />
+            <RowDefinition />
+            <RowDefinition />
+            <RowDefinition />
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Label Text="Info" Grid.Row="0" Grid.RowSpan="4"/>
+        <controls:MainPanel Grid.Row="4" Background="LightGreen"/>
+    </Grid>
+</ContentPage>

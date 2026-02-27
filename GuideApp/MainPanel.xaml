@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="GuideApp.MainPanel">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition />
+            <ColumnDefinition />
+            <ColumnDefinition />
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+        <Button
+            Text="Map" Grid.Column="0" CornerRadius="0" BackgroundColor="ForestGreen" TextColor="LightGreen" Margin="5,0,5,0" Clicked="MapBtn"/>
+        <Button 
+            Text="Search" Grid.Column="1" CornerRadius="0" BackgroundColor="ForestGreen" TextColor="LightGreen" Margin="5,0,5,0" Clicked="SearchBtn"/>
+        <Button 
+            Text="Camera" Grid.Column="2" CornerRadius="0" BackgroundColor="ForestGreen" TextColor="LightGreen" Margin="5,0,5,0" Clicked="CameraBtn"/>
+        <Button 
+            Text="Info" Grid.Column="3" CornerRadius="0" BackgroundColor="ForestGreen" TextColor="LightGreen" Margin="5,0,5,0" Clicked="InfoBtn"/>
+    </Grid>
+</ContentView>

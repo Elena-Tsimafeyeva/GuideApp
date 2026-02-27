@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:controls="clr-namespace:GuideApp"
+             x:Class="GuideApp.SearchPage"
+             Title="SearchPage">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition />
+            <RowDefinition />
+            <RowDefinition />
+            <RowDefinition />
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <SearchBar Placeholder="Поиск..." Grid.Row="0"/>
+        <HorizontalStackLayout Grid.Row="1">
+            <Button Text="Тема 1"/>
+            <Button Text="Тема 2"/>
+        </HorizontalStackLayout>
+        <ScrollView Grid.Row="2" Grid.RowSpan="2">
+            <VerticalStackLayout>
+                <Button Text="Статья 1" Clicked="Article"/>
+            </VerticalStackLayout>
+        </ScrollView>
+        <controls:MainPanel Background="LightGreen" Grid.Row="4"/>
+    </Grid>
+</ContentPage>
