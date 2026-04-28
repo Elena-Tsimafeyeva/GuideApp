@@ -11,9 +11,11 @@
             <RowDefinition/>
             <RowDefinition/>
             <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
-        <mapsui:MapControl x:Name="MapControl" Grid.Row="0" Grid.RowSpan="4"/>
-        <controls:MainPanel Grid.Row="4" Background="LightGreen"/>
+        <mapsui:MapControl x:Name="MapControl" Grid.Row="0" Grid.RowSpan="6"/>
+        <controls:MainPanel Grid.Row="6" Background="MintCream"/>
     </Grid> 
 </ContentPage>

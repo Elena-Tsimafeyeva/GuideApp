@@ -2,8 +2,8 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:controls="clr-namespace:GuideApp"
-             x:Class="GuideApp.InfoPage"
-             Title="InfoPage">
+             x:Class="GuideApp.WayPage"
+             Title="WayPage">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition />
@@ -14,7 +14,15 @@
             <RowDefinition />
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
-        <Label Text=" Здесь будет вся необходимая справочная информация." FontSize="18" Grid.Row="0" Grid.RowSpan="6"/>
+        <VerticalStackLayout Grid.Row="0" Grid.RowSpan="6">
+            <Label x:Name="header" Text="Выберите путь" FontSize="18" />
+            <Picker Title = "Путь">
+                <Picker.Items>
+                    <x:String>Путь 1</x:String>
+                    <x:String>Путь 2</x:String>
+                </Picker.Items>
+            </Picker>
+        </VerticalStackLayout>
         <controls:MainPanel Grid.Row="6" Background="MintCream"/>
     </Grid>
 </ContentPage>

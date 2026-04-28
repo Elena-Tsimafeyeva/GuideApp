@@ -2,7 +2,8 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:controls="clr-namespace:GuideApp"
-             x:Class="GuideApp.MainPage">
+             x:Class="GuideApp.MainPage"
+             Title="MainPage">
 
 
     <Grid>
@@ -11,9 +12,11 @@
             <RowDefinition />
             <RowDefinition />
             <RowDefinition />
+            <RowDefinition />
+            <RowDefinition />
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
-        <Image Source="forest1.jpg" Aspect="AspectFill" Grid.Row="0"  Grid.RowSpan="4"/>
-        <controls:MainPanel Grid.Row="4" Background="LightGreen"/>
+        <Image Source="screensaver.jpg" Aspect="AspectFill" Grid.Row="0"  Grid.RowSpan="6"/>
+        <controls:MainPanel Grid.Row="6" Background="MintCream"/>
     </Grid>
 </ContentPage>

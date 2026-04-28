@@ -11,14 +11,16 @@
             <RowDefinition />
             <RowDefinition />
             <RowDefinition />
+            <RowDefinition />
+            <RowDefinition />
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
     <zxing:CameraBarcodeReaderView
             x:Name="cameraView"
             BarcodesDetected="OnBarcodesDetected"
             IsDetecting="True"
-            Grid.Row="0" Grid.RowSpan="4"/>
-    <Label Text="Camera" Grid.Row="0" Grid.RowSpan="4"/>
-        <controls:MainPanel Grid.Row="4" Background="LightGreen"/>
+            Grid.Row="0" Grid.RowSpan="6"/>
+    <!--<Label Text="Camera" Grid.Row="0" Grid.RowSpan="6"/>-->
+        <controls:MainPanel Grid.Row="6" Background="MintCream"/>
     </Grid>
 </ContentPage>

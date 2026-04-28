@@ -3,23 +3,42 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:controls="clr-namespace:GuideApp"
              x:Class="GuideApp.ArticlePage"
-             Title="ArticlePage">
+             Title="{Binding Title}">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition />
             <RowDefinition />
             <RowDefinition />
             <RowDefinition />
+            <RowDefinition />
+            <RowDefinition />
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
-        <ScrollView Grid.Row="0" Grid.RowSpan="4">
+        <ScrollView Grid.Row="0" Grid.RowSpan="6">
             <VerticalStackLayout HorizontalOptions="Center">
-                <Label Text="Title"/>
-                <Image Source="forest1.jpg"/>
-                <Label Text="Text Text Text"/>
-                <Label Text="There will be audio here."/>
+                <Label Text="{Binding Title}" FontSize="24" FontAttributes="Bold" />
+
+                <CollectionView ItemsSource="{Binding Content}">
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate>
+                            <VerticalStackLayout>
+                                <!-- Текст -->
+                                <Label 
+                                    FontSize="18" 
+                                    Text="{Binding Content}" 
+                                    IsVisible="{Binding IsImage, Converter={StaticResource InverseBoolConverter}}" />
+                               
+                                <!-- Картинка -->
+                                <Image 
+                                    Source="{Binding Content}" 
+                                    IsVisible="{Binding IsImage}" 
+                                    HeightRequest="200" />
+                            </VerticalStackLayout>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
             </VerticalStackLayout>
         </ScrollView>
-        <controls:MainPanel Background="LightGreen" Grid.Row="4"/>
+        <controls:MainPanel Background="MintCream" Grid.Row="6"/>
     </Grid>
 </ContentPage>

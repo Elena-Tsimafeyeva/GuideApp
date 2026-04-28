@@ -8,14 +8,18 @@
             <ColumnDefinition />
             <ColumnDefinition />
             <ColumnDefinition />
+            <ColumnDefinition />
         </Grid.ColumnDefinitions>
         <Button
-            Text="Map" Grid.Column="0" CornerRadius="0" BackgroundColor="ForestGreen" TextColor="LightGreen" Margin="5,0,5,0" Clicked="MapBtn"/>
+            ImageSource="map.png" Grid.Column="0" CornerRadius="0" BackgroundColor="MintCream" Margin="5,0,5,0" Command="{Binding OpenMapCommand}"/>
         <Button 
-            Text="Search" Grid.Column="1" CornerRadius="0" BackgroundColor="ForestGreen" TextColor="LightGreen" Margin="5,0,5,0" Clicked="SearchBtn"/>
+            ImageSource="track.png" Grid.Column="1" CornerRadius="0" BackgroundColor="MintCream" Margin="5,0,5,0" Command="{Binding ChooseWayCommand}"/>
         <Button 
-            Text="Camera" Grid.Column="2" CornerRadius="0" BackgroundColor="ForestGreen" TextColor="LightGreen" Margin="5,0,5,0" Clicked="CameraBtn"/>
+            ImageSource="search.png" Grid.Column="2" CornerRadius="0" BackgroundColor="MintCream" Margin="5,0,5,0" Command="{Binding SearchInfoCommand}"/>
         <Button 
-            Text="Info" Grid.Column="3" CornerRadius="0" BackgroundColor="ForestGreen" TextColor="LightGreen" Margin="5,0,5,0" Clicked="InfoBtn"/>
+            ImageSource="qrcode.png" Grid.Column="3" CornerRadius="0" BackgroundColor="MintCream" Margin="5,0,5,0" Command="{Binding CameraQRCommand}"/>
+        <Button 
+            ImageSource="information.png" Grid.Column="4" CornerRadius="0" BackgroundColor="MintCream" Margin="5,0,5,0" Command="{Binding AdditionalInfoCommand}"/>
+        
     </Grid>
 </ContentView>
