@@ -3,20 +3,16 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:controls="clr-namespace:GuideApp"
              x:Class="GuideApp.MainPage"
+             NavigationPage.HasNavigationBar="False"
              Title="MainPage">
 
 
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition />
-            <RowDefinition />
-            <RowDefinition />
-            <RowDefinition />
-            <RowDefinition />
-            <RowDefinition />
             <RowDefinition Height="*"/>
+            <RowDefinition Height="70"/>
         </Grid.RowDefinitions>
-        <Image Source="screensaver.jpg" Aspect="AspectFill" Grid.Row="0"  Grid.RowSpan="6"/>
-        <controls:MainPanel Grid.Row="6" Background="MintCream"/>
+        <Image Source="screensaver.jpg" Aspect="AspectFill" Grid.Row="0"/>
+        <controls:MainPanel Grid.Row="1" Background="MintCream"/>
     </Grid>
 </ContentPage>

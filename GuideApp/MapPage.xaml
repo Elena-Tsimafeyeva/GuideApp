@@ -4,18 +4,23 @@
              xmlns:mapsui="clr-namespace:Mapsui.UI.Maui;assembly=Mapsui.UI.Maui"
              xmlns:controls="clr-namespace:GuideApp"
              x:Class="GuideApp.MapPage"
+             NavigationPage.HasNavigationBar="False"
              Title="MapPage">
     <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition />
+            <ColumnDefinition />
+            <ColumnDefinition Width="100"/>
+        </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
-            <RowDefinition/>
-            <RowDefinition/>
-            <RowDefinition/>
-            <RowDefinition/>
-            <RowDefinition/>
-            <RowDefinition/>
+            <RowDefinition Height="70"/>
             <RowDefinition Height="*"/>
+            <RowDefinition Height="70"/>
         </Grid.RowDefinitions>
-        <mapsui:MapControl x:Name="MapControl" Grid.Row="0" Grid.RowSpan="6"/>
-        <controls:MainPanel Grid.Row="6" Background="MintCream"/>
+        <Button Text="Маршрут 1" Command="{Binding LoadWay1Command}" BackgroundColor="DarkGreen" Grid.Row="0" Grid.Column="0" Margin="5"/>
+        <Button Text="Маршрут 2" Command="{Binding LoadWay2Command}" BackgroundColor="DarkGreen" Grid.Row="0" Grid.Column="1" Margin="5"/>
+        <Button Text="Где я?" Command="{Binding GetMyLocationCommand}" BackgroundColor="DarkBlue" Grid.Row="0" Grid.Column="2" Margin="5"/>
+        <mapsui:MapControl x:Name="MapControl" Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="3"/>
+        <controls:MainPanel Grid.Column="0" Grid.Row="2" Grid.ColumnSpan="3" Background="MintCream"/>
     </Grid> 
 </ContentPage>

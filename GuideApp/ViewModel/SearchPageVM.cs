@@ -1,9 +1,6 @@
 ﻿using GuideApp.DB;
 using GuideApp.Model;
-using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Text;
 
 
 namespace GuideApp.ViewModel
@@ -11,11 +8,10 @@ namespace GuideApp.ViewModel
     public class SearchPageVM : ViewModelBase
     {
         private DatabaseService _database = new DatabaseService();
-
-        public ObservableCollection<ArticleModel> Articles { get; set; } = new();
-        public Command<int> LoadSectionCommand { get; }
-        public Command<ArticleModel> OpenArticleCommand { get; }
-      
+        //Коллекция для UI со статьями, которая автоматически обновляет UI при изменениях
+        public ObservableCollection<ArticleModel> DisplayedArticles { get; set; } = new();
+        //_currentSection хранит фильтрованный список, чтобы можно было вернуть назад
+        private List<ArticleModel> _currentSection;
         private string searchText;
         public string SearchText
         {
@@ -27,9 +23,8 @@ namespace GuideApp.ViewModel
                 SearchArticles();
             }
         }
-
-        public ObservableCollection<ArticleModel> SearchResults { get; set; } = new();
-
+        public Command<int> LoadSectionCommand { get; }
+        public Command<ArticleModel> OpenArticleCommand { get; }
         public Command SearchCommand { get; }
 
         public SearchPageVM()
@@ -39,15 +34,24 @@ namespace GuideApp.ViewModel
 
             SearchCommand = new Command(SearchArticles);
         }
-
+        //Загрузка раздела
         private void LoadSection(int section)
         {
-            Articles.Clear();
-            var items = _database.GetArticlesBySection(section);
-            foreach (var item in items)
-                Articles.Add(item);
-        }
+            List<ArticleModel> items;
 
+            if (section == 0)
+                items = _database.GetAllArticles();
+            else
+                items = _database.GetArticlesBySection(section);
+
+            _currentSection = items;
+
+            DisplayedArticles.Clear();
+
+            foreach (var item in items)
+                DisplayedArticles.Add(item);
+        }
+        //Открытие статьи
         private async Task OpenArticle(ArticleModel article)
         {
             if (article == null)
@@ -69,20 +73,37 @@ namespace GuideApp.ViewModel
                 await Application.Current.MainPage.DisplayAlert("Ошибка", ex.Message, "OK");
             }
         }
-        
+        //Поиск возвращает список по текущему фильтру
         private void SearchArticles()
         {
             if (string.IsNullOrWhiteSpace(SearchText))
             {
-                SearchResults.Clear();
+                // Перезагружаем текущий фильтр
+                ReloadCurrent();
                 return;
             }
 
             var results = _database.SearchArticles(SearchText);
 
-            SearchResults.Clear();
-            foreach (var item in results)
-                SearchResults.Add(item);
+            DisplayedArticles.Clear();
+
+            foreach (var item in results.OrderBy(x => x.Title))
+                DisplayedArticles.Add(item);
+        }
+        //Сброс списка. Если фильтра нет, грузит всё. Если есть секция, возвращает её
+        private void ReloadCurrent()
+        {
+            List<ArticleModel> items;
+
+            if (_currentSection == null)
+                items = _database.GetAllArticles();
+            else
+                items = _currentSection;
+
+            DisplayedArticles.Clear();
+
+            foreach (var item in items.OrderBy(x => x.Title))
+                DisplayedArticles.Add(item);
         }
     }
 }

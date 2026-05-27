@@ -1,5 +1,4 @@
 using GuideApp.ViewModel;
-using System.Reflection;
 namespace GuideApp;
 
 public partial class SearchPage : ContentPage
@@ -37,4 +36,4 @@ public partial class SearchPage : ContentPage
     //        await DisplayAlert("Ошибка", $"Не удалось обновить базу: {ex.Message}", "OK");
     //    }
     //}
-    }
+}

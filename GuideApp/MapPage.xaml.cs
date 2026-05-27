@@ -1,143 +1,109 @@
 using BruTile.MbTiles;
-using Mapsui;
-using Mapsui.Features;
+using GuideApp.ViewModel;
 using Mapsui.Layers;
-using Mapsui.Nts;
-using Mapsui.Projections;
-using Mapsui.Styles;
-using Mapsui.Tiling;
 using Mapsui.Tiling.Layers;
 using Mapsui.UI.Maui;
-using NetTopologySuite.Geometries;
 using SQLite;
 
 namespace GuideApp;
 
 public partial class MapPage : ContentPage
 {
+    //Главный объект карты, который хранит: слои, тайлы, маршруты, точки
+    private Mapsui.Map _map;
+    private MapPageVM ViewModel => BindingContext as MapPageVM;
     public MapPage()
     {
         InitializeComponent();
+        var vm = new MapPageVM();
+        BindingContext = vm;
+        //Подписка на события
+        vm.OnLayerChanged += UpdateLayers;
+        vm.OnMyLocation += UpdateMyLocation;
+        vm.OnLocationWarning += ShowWarning;
+        //Главная загрузка карты
         InitMap();
-        //AddRoute(); // добавляем маршрут
     }
-
-    async void InitMap()
+    //Создание карты
+    private async void InitMap()
     {
-        var map = new Mapsui.Map();
-
+        //Создаётся объект Mapsui
+        _map = new Mapsui.Map();
+        //Открывается файл карты из ресурсов приложения
         var file = await FileSystem.OpenAppPackageFileAsync("map.mbtiles");
+        //Копируем в Cache
         var path = Path.Combine(FileSystem.CacheDirectory, "map.mbtiles");
-
+        //Карта копируется в кэш устройства
         using (var fs = File.Create(path))
-        {
             await file.CopyToAsync(fs);
-        }
-
+        //Mapsui читает MBTiles как SQLite базу (.mbtiles = SQLite database)
         var sqlite = new SQLiteConnectionString(path, true);
+        //Источник тайлов карты
         var tileSource = new MbTilesTileSource(sqlite);
-        var tileLayer = new TileLayer(tileSource);
-
-        map.Layers.Add(tileLayer);
-
-        MapControl.Map = map;
-        AddPoints();
-        //это прошлый код, который я использовала для онлайн карты
-        //var (x, y) = SphericalMercator.FromLonLat(52.337841, 30.964029);
-        //map.Navigator.CenterOnAndZoomTo(new MPoint(x, y), 14);
-        //var map = new Mapsui.Map();
-        //map.Layers.Add(OpenStreetMap.CreateTileLayer());
-
-        //MapControl.Map = map;
-
-        // Центр карты Гомель
-        //var (x, y) = SphericalMercator.FromLonLat(30.992714, 52.431212);
-        //map.Navigator.CenterOnAndZoomTo(new MPoint(x, y), 14);
+        //Добавляется слой самой карты
+        _map.Layers.Add(new TileLayer(tileSource));
+        //Привязка карты к UI-контролу
+        MapControl.Map = _map;
     }
-
-    void AddPoints()
+    //Получает слой маршрута и слой точек из VM
+    private void UpdateLayers(MemoryLayer route, MemoryLayer points)
     {
-        var layer = new MemoryLayer
-        {
-            Name = "Points",
-            Features = new IFeature[]
-            {
-                CreatePoint(30.964415, 52.344798, "Точка 1. История поселка Чёнки"),
-                CreatePoint(30.965268, 52.345072, "Точка 2 Река Сож"),
-                CreatePoint(30.956294195989894, 52.33682083021225, "Точка 3 Санаторий «Машиностроитель»"),
-                CreatePoint(30.954658, 52.331347, "Точка 4 Озеро Узкое"),
-                CreatePoint(30.952301, 52.328403, "Точка 5. Пойменный ландшафт"),
-                CreatePoint(30.961000, 52.328056, "Точка 6 Ченковский лес"),
-                CreatePoint(30.960556, 52.330444, "Точка 7 Древнее городище")
-            }
-        };
+        //Удаляет старые слои, чтобы маршруты не накладывались друг на друга
+        RemoveLayer("RouteLayer");
+        RemoveLayer("PointsLayer");
 
-        MapControl.Map.Layers.Add(layer);
+        // Сначала рисуем линию
+        _map.Layers.Add(route);
+
+        // Потом рисуем точки (они будут сверху)
+        _map.Layers.Add(points);
+        //Перерисовка карты
+        MapControl.Refresh();
     }
-    //это прошлый код, который я использовала для маршрутов
-    //void AddRoute()
+    //Обновляет слой "Вы тут"
+    private void UpdateMyLocation(MemoryLayer layer)
+    {
+        //Удаляет старую позицию
+        RemoveLayer("MyLocationLayer");
+
+        _map.Layers.Add(layer);
+        MapControl.Refresh();
+    }
+
+    private void ShowWarning(string message)
+    {
+        MainThread.BeginInvokeOnMainThread(async () =>
+        {
+            await DisplayAlert("Геолокация", message, "OK");
+        });
+    }
+    private void RemoveLayer(string name)
+    {
+        //Поиск слоя по имени
+        var layer = _map.Layers.FirstOrDefault(x => x.Name == name);
+        if (layer != null)
+            _map.Layers.Remove(layer);
+    }
+    
+
+    //void AddPoints()
     //{
-    //    // Массив точек маршрута
-    //    var routePoints = new[]
+    //    var layer = new MemoryLayer
     //    {
-    //        (30.991398, 52.430849), // ЖД Вокзал
-    //        (30.9925, 52.4315),     // промежуточная точка
-    //        (30.993239, 52.433869)  // Автовокзал
-    //    };
-
-    //    // Конвертируем координаты в Coordinate для NetTopologySuite
-    //    var coords = routePoints
-    //        .Select(p =>
+    //        Name = "Points",
+    //        Features = new IFeature[]
     //        {
-    //            var (x, y) = SphericalMercator.FromLonLat(p.Item1, p.Item2);
-    //            return new Coordinate(x, y);
-    //        })
-    //        .ToArray();
-
-    //    // Создаём линию маршрута
-    //    var lineFeature = new GeometryFeature
-    //    {
-    //        Geometry = new LineString(coords)
+    //            CreatePoint(30.964415, 52.344798, "Точка 1. История поселка Чёнки"),
+    //            CreatePoint(30.965268, 52.345072, "Точка 2 Река Сож"),
+    //            CreatePoint(30.956294195989894, 52.33682083021225, "Точка 3 Санаторий «Машиностроитель»"),
+    //            CreatePoint(30.954658, 52.331347, "Точка 4 Озеро Узкое"),
+    //            CreatePoint(30.952301, 52.328403, "Точка 5. Пойменный ландшафт"),
+    //            CreatePoint(30.961000, 52.328056, "Точка 6 Ченковский лес"),
+    //            CreatePoint(30.960556, 52.330444, "Точка 7 Древнее городище")
+    //        }
     //    };
 
-    //    // Стиль линии
-    //    lineFeature.Styles.Add(new VectorStyle
-    //    {
-    //        Line = new Pen(Mapsui.Styles.Color.Blue, 3)
-    //    });
-
-    //    // Слой для маршрута
-    //    var routeLayer = new MemoryLayer
-    //    {
-    //        Name = "Route",
-    //        Features = new[] { lineFeature }
-    //    };
-
-    //    MapControl.Map.Layers.Add(routeLayer);
+    //    MapControl.Map.Layers.Add(layer);
     //}
-
-    IFeature CreatePoint(double lon, double lat, string name)
-    {
-        var (x, y) = SphericalMercator.FromLonLat(lon, lat);
-
-        var feature = new GeometryFeature
-        {
-            Geometry = new NetTopologySuite.Geometries.Point(x, y)
-        };
-
-        feature.Styles.Add(new SymbolStyle
-        {
-            Fill = new Mapsui.Styles.Brush(Mapsui.Styles.Color.Red),
-            Outline = new Pen(Mapsui.Styles.Color.Black, 2),
-            SymbolScale = 0.8
-        });
-
-        feature.Styles.Add(new LabelStyle
-        {
-            Text = name,
-            Offset = new Offset(0, -20)
-        });
-
-        return feature;
-    }
+   
 }

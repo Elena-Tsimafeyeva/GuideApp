@@ -3,18 +3,20 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:controls="clr-namespace:GuideApp"
              x:Class="GuideApp.InfoPage"
+             NavigationPage.HasNavigationBar="False"
              Title="InfoPage">
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition />
-            <RowDefinition />
-            <RowDefinition />
-            <RowDefinition />
-            <RowDefinition />
-            <RowDefinition />
             <RowDefinition Height="*"/>
+            <RowDefinition Height="70"/>
         </Grid.RowDefinitions>
-        <Label Text=" Здесь будет вся необходимая справочная информация." FontSize="18" Grid.Row="0" Grid.RowSpan="6"/>
-        <controls:MainPanel Grid.Row="6" Background="MintCream"/>
+        <VerticalStackLayout Grid.Row="0" Margin="5,25,5,0">
+            <Label Text="Для жалоб и предложений просим связаться по почте" FontSize="18" Margin="5"/>
+            <Label Text="Флерко Татьяна Григорьевна" FontSize="18" Margin="5" />
+            <Label Text="flerko@gsu.by" FontSize="18" Margin="5" FontAttributes="Bold"/>
+            <Label Text="Тимофеева Елена Александровна" FontSize="18" Margin="5"/>
+            <Label Text="elenatsimafeyeva@gmail.com" FontSize="18" Margin="5" FontAttributes="Bold"/>
+        </VerticalStackLayout>
+        <controls:MainPanel Grid.Row="1" Background="MintCream"/>
     </Grid>
 </ContentPage>

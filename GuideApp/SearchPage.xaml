@@ -4,71 +4,64 @@
              xmlns:controls="clr-namespace:GuideApp"
              xmlns:local="clr-namespace:GuideApp.ViewModel"
              x:Class="GuideApp.SearchPage"
+             NavigationPage.HasNavigationBar="False"
              Title="SearchPage">
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition />
-            <RowDefinition />
-            <RowDefinition />
-            <RowDefinition />
-            <RowDefinition />
-            <RowDefinition />
+            <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
+            <RowDefinition Height="70"/>
         </Grid.RowDefinitions>
-        <VerticalStackLayout Grid.Row="0">
-            <!--<SearchBar Placeholder="Поиск..."/>-->
-            <!--Search articles-->
+        <VerticalStackLayout Grid.Row="0" Margin="0,25,0,5">
+            <!--Поиск...-->
             <SearchBar 
                 Placeholder="Поиск..."
                 Text="{Binding SearchText}"
-                SearchCommand="{Binding SearchCommand}"/>
-            <CollectionView ItemsSource="{Binding SearchResults}" IsVisible="{Binding SearchResults.Count}">
-                <CollectionView.ItemTemplate>
-                    <DataTemplate>
-                        <Button 
-                            Text="{Binding Title}"
-                            Command="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}}, Path=BindingContext.OpenArticleCommand}"
-                            CommandParameter="{Binding .}" 
-                            BackgroundColor="LimeGreen"/>
-                    </DataTemplate>
-                </CollectionView.ItemTemplate>
-            </CollectionView>
-            
+                SearchCommand="{Binding SearchCommand}"
+                Margin="0,0,0,5"/>
             <!-- Кнопки разделов -->
-            <HorizontalStackLayout HorizontalOptions="Center" Margin="0,10,0,5">
-            <Button Text="  Тема 1  " Command="{Binding LoadSectionCommand}" WidthRequest="100" HeightRequest="50" BackgroundColor="ForestGreen" Margin="10,0,10,0">
-                <Button.CommandParameter>
-                    <x:Int32>1</x:Int32>
-                </Button.CommandParameter>
-            </Button>
-            <Button Text="  Тема 2  " Command="{Binding LoadSectionCommand}" WidthRequest="100" HeightRequest="50" BackgroundColor="ForestGreen" Margin="10,0,10,0">
-                <Button.CommandParameter>
-                    <x:Int32>2</x:Int32>
-                </Button.CommandParameter>
-            </Button>
-            <!--<Button Text="Обновить базу"
+            <!--<HorizontalStackLayout HorizontalOptions="Center" Margin="0,10,0,5">-->
+            <Grid ColumnDefinitions="*,*,*"
+            ColumnSpacing="10"
+            Padding="10,0">
+                <Button Grid.Column="0" Text="Все" Command="{Binding LoadSectionCommand}" BackgroundColor="DarkGreen" FontSize="12">
+                    <Button.CommandParameter>
+                        <x:Int32>0</x:Int32>
+                    </Button.CommandParameter>
+                </Button>
+                <Button Grid.Column="1" Text="Антропогенные" Command="{Binding LoadSectionCommand}" BackgroundColor="DarkGreen" FontSize="12">
+                    <Button.CommandParameter>
+                        <x:Int32>1</x:Int32>
+                    </Button.CommandParameter>
+                </Button>
+                <Button Grid.Column="2" Text="Природные" Command="{Binding LoadSectionCommand}" BackgroundColor="DarkGreen" FontSize="12">
+                    <Button.CommandParameter>
+                        <x:Int32>2</x:Int32>
+                    </Button.CommandParameter>
+                </Button>
+                <!--<Button Grid.Column="3" Text="Обновить базу"
         Clicked="OnUpdateDatabaseClicked"
         BackgroundColor="LightBlue"
         TextColor="Black"
         HorizontalOptions="Center"
         Margin="10"/>-->
-        </HorizontalStackLayout>
+            </Grid>
+            <!--</HorizontalStackLayout>-->
         </VerticalStackLayout>
-        <ScrollView Grid.Row="1" Grid.RowSpan="2">
-            <!-- Список статей -->
-            <CollectionView ItemsSource="{Binding Articles}">
+        <!-- Список статей -->
+        <CollectionView ItemsSource="{Binding DisplayedArticles}" Grid.Row="1">
                 <CollectionView.ItemTemplate>
                     <DataTemplate>
                         <Button 
                             BackgroundColor="ForestGreen" 
-                            Margin="0,5,0,5" 
+                            Margin="5" 
                             Text="{Binding Title}"
                             Command="{Binding BindingContext.OpenArticleCommand, Source={RelativeSource AncestorType={x:Type ContentPage}}}"
                             CommandParameter="{Binding .}" />
                     </DataTemplate>
                 </CollectionView.ItemTemplate>
-            </CollectionView>
-        </ScrollView>
-        <controls:MainPanel Background="MintCream" Grid.Row="6"/>
+        </CollectionView>
+        <!--</ScrollView>-->
+        <controls:MainPanel Background="MintCream" Grid.Row="2"/>
     </Grid>
 </ContentPage>

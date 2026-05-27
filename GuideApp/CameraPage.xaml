@@ -4,23 +4,17 @@
              xmlns:zxing="clr-namespace:ZXing.Net.Maui.Controls;assembly=ZXing.Net.Maui.Controls"
              xmlns:controls="clr-namespace:GuideApp"
              x:Class="GuideApp.CameraPage"
-             Title="CameraPage">
+             Title="Отсканируйте QR-code">
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition />
-            <RowDefinition />
-            <RowDefinition />
-            <RowDefinition />
-            <RowDefinition />
-            <RowDefinition />
             <RowDefinition Height="*"/>
+            <RowDefinition Height="70"/>
         </Grid.RowDefinitions>
-    <zxing:CameraBarcodeReaderView
+        <zxing:CameraBarcodeReaderView
             x:Name="cameraView"
             BarcodesDetected="OnBarcodesDetected"
             IsDetecting="True"
-            Grid.Row="0" Grid.RowSpan="6"/>
-    <!--<Label Text="Camera" Grid.Row="0" Grid.RowSpan="6"/>-->
-        <controls:MainPanel Grid.Row="6" Background="MintCream"/>
+            Grid.Row="0"/>
+        <controls:MainPanel Grid.Row="1" Background="MintCream"/>
     </Grid>
 </ContentPage>

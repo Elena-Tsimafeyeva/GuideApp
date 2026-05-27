@@ -1,5 +1,4 @@
-﻿using Microsoft.Extensions.DependencyInjection;
-using GuideApp;
+﻿
 
 namespace GuideApp
 {
@@ -8,6 +7,7 @@ namespace GuideApp
         public App()
         {
             InitializeComponent();
+            Application.Current.UserAppTheme = AppTheme.Light;
             MainPage = new NavigationPage(new MainPage());
         }
     }

@@ -6,22 +6,17 @@
              Title="{Binding Title}">
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition />
-            <RowDefinition />
-            <RowDefinition />
-            <RowDefinition />
-            <RowDefinition />
-            <RowDefinition />
             <RowDefinition Height="*"/>
+            <RowDefinition Height="70"/>
         </Grid.RowDefinitions>
-        <ScrollView Grid.Row="0" Grid.RowSpan="6">
+        <ScrollView Grid.Row="0">
             <VerticalStackLayout HorizontalOptions="Center">
-                <Label Text="{Binding Title}" FontSize="24" FontAttributes="Bold" />
+                <Label Text="{Binding Title}" FontSize="24" FontAttributes="Bold" HorizontalTextAlignment="Center"/>
 
                 <CollectionView ItemsSource="{Binding Content}">
                     <CollectionView.ItemTemplate>
                         <DataTemplate>
-                            <VerticalStackLayout>
+                            <VerticalStackLayout Margin="5,0,5,0">
                                 <!-- Текст -->
                                 <Label 
                                     FontSize="18" 
@@ -31,7 +26,8 @@
                                 <!-- Картинка -->
                                 <Image 
                                     Source="{Binding Content}" 
-                                    IsVisible="{Binding IsImage}" 
+                                    IsVisible="{Binding IsImage}"
+                                    Margin="0,0,0,10"
                                     HeightRequest="200" />
                             </VerticalStackLayout>
                         </DataTemplate>
@@ -39,6 +35,6 @@
                 </CollectionView>
             </VerticalStackLayout>
         </ScrollView>
-        <controls:MainPanel Background="MintCream" Grid.Row="6"/>
+        <controls:MainPanel Background="MintCream" Grid.Row="1"/>
     </Grid>
 </ContentPage>

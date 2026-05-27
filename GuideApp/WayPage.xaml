@@ -3,26 +3,26 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:controls="clr-namespace:GuideApp"
              x:Class="GuideApp.WayPage"
+             NavigationPage.HasNavigationBar="False"
              Title="WayPage">
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition />
-            <RowDefinition />
-            <RowDefinition />
-            <RowDefinition />
-            <RowDefinition />
-            <RowDefinition />
+            <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
+            <RowDefinition Height="70"/>
         </Grid.RowDefinitions>
-        <VerticalStackLayout Grid.Row="0" Grid.RowSpan="6">
-            <Label x:Name="header" Text="Выберите путь" FontSize="18" />
-            <Picker Title = "Путь">
-                <Picker.Items>
-                    <x:String>Путь 1</x:String>
-                    <x:String>Путь 2</x:String>
-                </Picker.Items>
-            </Picker>
+        <VerticalStackLayout Grid.Row="0" Padding="10" Margin="0,15,0,0">
+            <Label Text="Выберите путь" FontSize="18" HorizontalOptions="Center"/>
+            <Picker Title="Нажмите для выбора" FontSize="18" ItemsSource="{Binding Ways}" SelectedItem="{Binding SelectedWay}" />
         </VerticalStackLayout>
-        <controls:MainPanel Grid.Row="6" Background="MintCream"/>
+        <CollectionView Grid.Row="1" ItemsSource="{Binding DisplayedArticles}">
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+                    <Button Text="{Binding Title}" BackgroundColor="ForestGreen" Margin="0,5" Command="{Binding BindingContext.OpenArticleCommand, 
+                        Source={RelativeSource AncestorType={x:Type ContentPage}}}" CommandParameter="{Binding .}" />
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+        <controls:MainPanel Grid.Row="2" Background="MintCream"/>
     </Grid>
 </ContentPage>

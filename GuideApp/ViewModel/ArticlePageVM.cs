@@ -1,10 +1,6 @@
 ﻿using GuideApp.Model;
 using GuideApp.DB;
-using GuideApp.ViewModel;
-using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Text;
 
 namespace GuideApp.ViewModel
 {

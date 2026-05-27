@@ -1,4 +1,4 @@
-﻿using Microsoft.Extensions.Logging;
+﻿
 using ZXing.Net.Maui.Controls;
 using SkiaSharp.Views.Maui.Controls.Hosting;
 
